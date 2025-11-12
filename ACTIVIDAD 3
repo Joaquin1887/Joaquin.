@@ -1,0 +1,81 @@
+int main() {
+
+  // Inicializa grupo de pines de digitos y segmentos
+  gpio_init_mask(DIGITS);
+  gpio_init_mask(SEGMENTS);
+
+  // Configura dirección de salida para digitos y segmentos
+  gpio_set_dir_out_masked(DIGITS);
+  gpio_set_dir_out_masked(SEGMENTS);
+
+   int numbers[10] = {CERO, UNO, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, 
+   OCHO, NUEVE};
+  while(true) {
+    
+     for(int i=0; i<10000; i++) { 
+      
+      int abc=(i%10); 
+      // Apagar todos los digits 
+       gpio_put_masked(DIGITS, DIGITS); 
+      // Mandar el numro que quede en abc 
+      gpio_put_masked(SEGMENTS, numbers[abc]); 
+      gpio_put_masked(DIGITS, 1 << DIG1|1 << DIG2|1 << DIG3); 
+      sleep_ms(10); 
+      
+      int cde=(i%100)/10; 
+      // Apagar todos los digits 
+       gpio_put_masked(DIGITS, DIGITS); 
+      // Mandar el numro que quede en cde 
+       gpio_put_masked(SEGMENTS, numbers[cde]); 
+      gpio_put_masked(DIGITS, 1 << DIG1|1 << DIG2|1 << DIG4); 
+      sleep_ms(10); 
+ 
+      int fgh=(i%1000)/100; 
+      // Apagar todos los digits 
+       gpio_put_masked(DIGITS, DIGITS); 
+      // Mandar el numro que quede en fgh 
+       gpio_put_masked(SEGMENTS, numbers[fgh]); 
+        gpio_put_masked(DIGITS, 1 << DIG1|1 << DIG3|1 << DIG4); 
+      sleep_ms(10); 
+ 
+      int ijk=(i/1000); 
+      // Apagar todos los digits 
+       gpio_put_masked(DIGITS, DIGITS); 
+      // Mandar el numro que quede en ijk 
+       gpio_put_masked(SEGMENTS, numbers[ijk]); 
+        gpio_put_masked(DIGITS, 1 << DIG2|1 << DIG3|1 << DIG4); 
+      sleep_ms(10); 
+ 
+      sleep_ms(1);
+     }
+   }
+  } 
+CRONOMETRO TERMINADO
+
+
+#include <stdio.h>
+#include "pico/stdlib.h"
+#include "tm1637.h"
+
+int main()
+{
+    stdio_init_all();
+    TM1637_init(1,0);
+    TM1637_display_right(9, true);
+    TM1637_set_colon(true);
+    TM1637_set_brightness(0);
+    
+    while (true) {
+        for(int i=0; i<10000; i++)
+        TM1637_display(i, true); 
+        sleep_ms(100);
+        TM1637_clear();
+
+    }
+
+CRONOMETRO PASADO A PROTOBOARD
+}
+CRONOMETRO PASADO A PROTOBOARD
+
+
+
